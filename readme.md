@@ -1,6 +1,8 @@
-## General info
+# General info
 This is cmake c++ template app for raspberry pi cross compiling and remote debugging in visual studio code
-## Install requirement software:
+# Quickstart
+
+## Install required software:
 1. install cross compilers 
 - g++-arm-linux-gnueabihf
 - gcc-arm-linux-gnueabihf
@@ -18,7 +20,7 @@ sudo apt-get install g++-arm-linux-gnueabihf \
             g++-aarch64-linux-gnu \
             gdb-multiarch \
             rsync \
-            sshpass \
+            sshpass
 ```
 ## Configure raspberry pi
 1. install gdb
@@ -30,4 +32,5 @@ sudo apt-get install g++-arm-linux-gnueabihf \
 cmake -DCMAKE_BUILD_TYPE:STRING=Debug -DCMAKE_C_COMPILER:FILEPATH=/usr/bin/arm-linux-gnueabihf-gcc -DCMAKE_CXX_COMPILER:FILEPATH=/usr/bin/arm-linux-gnueabihf-g++ -Bbuild -G Ninja
 ```
 note: the compiler can be switched in "Cmake tools" panel, no need to run cmake manually then
+
 4. add breakpoints and press "play" button!
