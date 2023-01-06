@@ -1,0 +1,26 @@
+{
+    "env": {
+        "myDefaultIncludePath": [
+            "${workspaceFolder}",
+            "${workspaceFolder}/include"
+        ],
+        "myCompilerPath": "/usr/local/bin/gcc-7"
+    },
+    "configurations": [
+        {
+            "name": "Mac",
+            "intelliSenseMode": "clang-x64",
+            "includePath": [
+                "${myDefaultIncludePath}",
+                "${workspaceFolder}/build/_deps/jsondto-src/dev",
+                "${workspaceFolder}/build/_deps/rapidjson-src/include",
+                "${workspaceFolder}/build/_deps/spdlog-src/include",
+                "${workspaceFolder}/build/_deps/googletest-src/googletest/include"
+            ],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c11",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}

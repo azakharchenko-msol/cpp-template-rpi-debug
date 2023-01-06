@@ -1,0 +1,96 @@
+//sshpass -p pi rsync -avzP ./bin/* pi@raspberrypi.local:~/ && echo && sshpass -p pi ssh pi@raspberrypi.local sudo /home/pi/app
+
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build C++ project",
+            "type": "shell",
+            "command": "cmake --build build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "silent",
+                "revealProblems": "onProblem",
+                "close": true
+            }
+        },
+        {
+            "label": "Build & sync C++ project binaries",
+            "dependsOn": [
+                "Build C++ project"
+            ],
+            "type": "shell",
+            "command": "sshpass",
+            "args": [
+                "-p",
+                "${config:debug_host_password}",
+                "rsync",
+                "-avz",
+                "-e",
+                "\"ssh -o StrictHostKeyChecking=no\"",
+                "./build/src/*",
+                "${config:debug_host_user}@${config:debug_host}:${config:remote_folder}",
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "silent",
+                "revealProblems": "onProblem",
+                "close": true
+            }
+        },
+        {
+            "label": "gdbserver",
+            "type": "shell",
+            "command": "sshpass",
+            "args": [
+                "-p",
+                "${config:debug_host_password}",
+                "ssh",
+                "\"-o StrictHostKeyChecking=no\"",
+                "${config:debug_host_user}@${config:debug_host}",
+                "killall gdbserver; gdbserver --once --multi :${config:debug_port}"
+            ],
+            "isBackground": true,
+            
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                {
+                    "pattern": [
+                        {
+                            "regexp": ".",
+                            "file": 1,
+                            "location": 2,
+                            "message": 3
+                        }
+                    ],
+                    "background": {
+                        "activeOnStart": true,
+                        "beginsPattern": ".",
+                        "endsPattern": ".",
+                    }
+                }
+            ]
+            
+        
+        },
+        {
+            "label": "prepare target",
+            "dependsOn":["Build & sync C++ project binaries", "gdbserver"],
+            "presentation": {
+                "reveal": "silent",
+                "revealProblems": "onProblem",
+                "close": true
+            }
+        }
+
+    ]
+}

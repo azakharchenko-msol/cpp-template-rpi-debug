@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "by-gdb",
+            "request": "launch",
+            "name": "Debug",
+            "program": "build/src/${config:debug_app_name}",
+            "cwd": "${workspaceRoot}",
+            "preLaunchTask": "prepare target",
+            "debuggerPath": "/usr/bin/gdb-multiarch",
+            "remote": {
+                "enabled": true,
+                "address": "${config:debug_host}:${config:debug_port}",
+                "mode": "extended-remote",
+                "execfile": "${config:remote_folder}/${config:debug_app_name}"
+            }
+        },
+    ]
+}
